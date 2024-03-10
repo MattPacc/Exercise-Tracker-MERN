@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import * as exercises from './exercises_model.mjs';
+import {body, validationResult} from 'express-validator';
 import express from 'express';
 
 const PORT = process.env.PORT;
@@ -8,10 +9,28 @@ const app = express();
 
 app.use(express.json());
 
+function isDateValid(date) {
+    const format = /^\d\d-\d\d-\d\d$/;
+    return format.test(date);
+}
+
 /**
  * Create a new exercise with the name, reps, weight, and date provided in the body
+ *  Validate each field for required values using express-validator
  */
-app.post('/exercises', (req, res) => {
+app.post('/exercises', [
+    body('name').trim().isLength({ min: 1 }),
+    body('reps').isInt({ min: 1 }),
+    body('weight').isInt({ min: 1 }),
+    body('unit').isIn(['kgs', 'lbs']),
+    body('date').custom(value => isDateValid(value)),
+  ], (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isempty()) {
+        res.status(400).json({Error: 'Invalid Request'});
+    }
+
     exercises.createExercise( req.body.name, req.body.reps, req.body.weight, req.body.unit, req.body.date )
     .then(exercise => {
         res.status(201).json(exercise);
