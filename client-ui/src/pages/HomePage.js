@@ -1,37 +1,42 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MovieList from '../components/MovieList';
+import ExerciseList from '../components/ExerciseList';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function HomePage() {
-    const [movies, setMovies] = useState([]);
+function HomePage( {setExerciseToEdit} ) {
+    const [exercises, setExercises] = useState([]);
+    const navigate = useNavigate();
 
     const onDelete = async _id => {
-        const response = await fetch('/movies/${_id}', {method: 'DELETE'})
+        const response = await fetch(`/exercises/${_id}`, {method: 'DELETE'})
         if (response.status === 200) {
-            const newMovies = movies.filter(m => m._id !== _id);
-            setMovies(newMovies);
+            setExercises(exercises.filter(m => m._id !== _id));
         } else{
-            console.error('Failed to delete movie with _id = ${_id}, ststus code = ${response.status}')
+            console.error(`Failed to delete exercise with _id = ${_id}, ststus code = ${response.status}`)
         }
     }
 
-    const loadMovies = async () =>{
-        const response = await fetch('/movies');
+    const onEdit = exercise =>{
+        setExerciseToEdit(exercise);
+        navigate("/edit-exercise");
+    }
+
+    const loadExercises = async () =>{
+        const response = await fetch('/exercises');
         const data = await response.json();
-        setMovies(data);
+        setExercises(data);
     }
 
     useEffect(() => {
-        loadMovies();
+        loadExercises();
     },[]);
 
     return (
         <>
-            <h2>List of Movies</h2>
-            <MovieList movies={movies} onDelete={onDelete}></MovieList>
-            <Link to="/add-movie">Add a movie</Link>
+            <h2>List of Exercises</h2>
+            <ExerciseList exercises={exercises} onDelete={onDelete} onEdit={onEdit}></ExerciseList>
+            <Link to="/add-exercise">Add an exercise</Link>
         </>
     );
 }

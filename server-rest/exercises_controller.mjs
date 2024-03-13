@@ -27,7 +27,7 @@ app.post('/exercises', [
   ], (req, res) => {
 
     const errors = validationResult(req);
-    if (!errors.isempty()) {
+    if (!errors.isEmpty()) {
         res.status(400).json({Error: 'Invalid Request'});
     }
 
