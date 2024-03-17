@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 export const AddExercisePage = () => {
 
-    const [title, setTitle] = useState('');
-    const [year, setYear] = useState('');
-    const [language, setLanguage] = useState('');
+    const [name, setName] = useState('');
+    const [reps, setReps] = useState('');
+    const [weight, setWeight] = useState('');
+    const [unit, setUnit] = useState(''); // Assuming 'kg' or 'lbs' as default units
+    const [date, setDate] = useState('');
 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     const addExercise = async () => {
-        const newExercise = {title, year, language};
+        const newExercise = {name, reps, weight, unit, date};
         const response = await fetch('/exercises', {
             method: 'POST',
             body: JSON.stringify(newExercise),
@@ -18,14 +20,12 @@ export const AddExercisePage = () => {
             },
         });
         if(response.status === 201){
-            alert("Successfully added a new Exercise");
+            alert(`Successfully added a new exercise, Status code: ${response.status}`);
         }else{
-            alert(`Failed to add a new Exercise, status code: ${response.status}`)
+            alert(`Failed to add a new exercise, Status code: ${response.status}`)
         }
         navigate("/");
     };
-
-
 
     return (
         <div>
@@ -39,17 +39,18 @@ export const AddExercisePage = () => {
                 type="number"
                 value={reps}
                 placeholder="Enter reps here"
-                onChange={e => setYear(e.target.value)} />
+                onChange={e => setReps(e.target.value)} />
             <input
                 type="number"
                 placeholder="Enter weight here"
                 value={weight}
                 onChange={e => setWeight(e.target.value)} />
-            <input
-                type="text"
-                value={unit}
-                placeholder="Enter unit here"
-                onChange={e => setUnit(e.target.value)} />
+            
+            <select value={unit} onChange={e => setUnit(e.target.value)}>
+                <option value="kgs">kgs</option>
+                <option value="lbs">lbs</option>
+            </select>
+
             <input
                 type="text"
                 value={date}

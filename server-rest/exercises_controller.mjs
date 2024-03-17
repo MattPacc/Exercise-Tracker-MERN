@@ -28,7 +28,7 @@ app.post('/exercises', [
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.status(400).json({Error: 'Invalid Request'});
+        return res.status(400).json({Error: 'Invalid Request'});
     }
 
     exercises.createExercise( req.body.name, req.body.reps, req.body.weight, req.body.unit, req.body.date )
@@ -80,7 +80,18 @@ app.get('/exercises/:_id', (req, res) => {
  * Update the exercise whose id is provided in the path parameter and set
  * its name, reps, weight, unit, date to the values provided in the body.
  */
-app.put('/exercises/:_id', (req, res) => {
+app.put('/exercises/:_id', [
+    body('name').trim().isLength({ min: 1 }),
+    body('reps').isInt({ min: 1 }),
+    body('weight').isInt({ min: 1 }),
+    body('unit').isIn(['kgs', 'lbs']),
+    body('date').custom(value => isDateValid(value)),
+    ],
+    (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+    return res.status(400).json({ Error: "Invalid request" });
+    }
     exercises.replaceExercise(req.params._id, req.body.name, req.body.reps, req.body.weight, req.body.unit, req.body.date)
     .then(updatedExercise => {
         if (updatedExercise){

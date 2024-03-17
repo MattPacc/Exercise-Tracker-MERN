@@ -10,10 +10,10 @@ function HomePage( {setExerciseToEdit} ) {
 
     const onDelete = async _id => {
         const response = await fetch(`/exercises/${_id}`, {method: 'DELETE'})
-        if (response.status === 200) {
+        if (response.status === 204) {
             setExercises(exercises.filter(m => m._id !== _id));
         } else{
-            console.error(`Failed to delete exercise with _id = ${_id}, ststus code = ${response.status}`)
+            console.error(`Failed to delete exercise with _id = ${_id}, status code = ${response.status}`)
         }
     }
 

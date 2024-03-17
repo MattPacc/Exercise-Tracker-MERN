@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const EditExercisePage = (exerciseToEdit, setExerciseToEdit) => {
+export const EditExercisePage = ({exerciseToEdit}) => {
 
     const [name, setName] = useState(exerciseToEdit.name);
     const [reps, setReps] = useState(exerciseToEdit.reps);
@@ -20,14 +20,12 @@ export const EditExercisePage = (exerciseToEdit, setExerciseToEdit) => {
             },
         });
         if(response.status === 200){
-            alert("Successfully edited the exercise");
+            alert(`Successfully edited the exercise, Status code: ${response.status}`);
         }else{
-            alert(`Failed to edit the exercise, status code: ${response.status}`)
+            alert(`Failed to edit the exercise, Status code: ${response.status}`)
         }
         navigate("/");
     };
-
-
 
     return (
         <div>
@@ -47,11 +45,10 @@ export const EditExercisePage = (exerciseToEdit, setExerciseToEdit) => {
                 placeholder="Enter weight here"
                 value={weight}
                 onChange={e => setWeight(e.target.value)} />
-            <input
-                type="text"
-                value={unit}
-                placeholder="Enter unit here"
-                onChange={e => setUnit(e.target.value)} />
+            <select value={unit} onChange={e => setUnit(e.target.value)}>
+                <option value="kgs">kgs</option>
+                <option value="lbs">lbs</option>
+            </select>
             <input
                 type="text"
                 value={date}
