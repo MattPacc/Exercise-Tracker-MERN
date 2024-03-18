@@ -6,7 +6,7 @@ export const AddExercisePage = () => {
     const [name, setName] = useState('');
     const [reps, setReps] = useState('');
     const [weight, setWeight] = useState('');
-    const [unit, setUnit] = useState(''); // Assuming 'kg' or 'lbs' as default units
+    const [unit, setUnit] = useState('lbs');
     const [date, setDate] = useState('');
 
     const navigate = useNavigate(); 

@@ -1,0 +1,73 @@
+body {
+  background-color: rgb(255,255,255);
+}
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  font-size: 20px;
+  color: rgb(5, 2, 58);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+td, th {
+  border: 1px solid #2d2c2c;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #ecd0e6;}
+
+tr:hover {background-color: #706a6a;}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #0056b3;
+  color: #7D3C98 ;
+}
+
+/* Global page design */
+body {
+  font-family: Arial, sans-serif; 
+  background-color: #9eabd3;
+  color: #3c3a4c;
+  margin: 0;
+  padding: 10px;
+}
+
+/* Table styles */
+tr th, tr td {
+  border: 1px solid #251220; 
+  padding: 8px;
+  color: #34314a; 
+}
+
+/* Form styles */
+input, select, button {
+  font-family: inherit; 
+  margin: 10px 0; 
+  padding: 10px; 
+  border: 1px solid #eadede; 
+  border-radius: 4px; 
+}
+
+button {
+  background-color: #007bff; 
+  color: rgb(218, 199, 199); 
+  cursor: pointer; 
+}
+
+button:hover {
+  background-color: #0056b3; 
+}
